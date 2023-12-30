@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-9q6m*x+&8@mr9-z$h@!ik!14nuz#$yuy6c^3m$e^or)8(aky3z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -85,8 +85,12 @@ WSGI_APPLICATION = 'ClassicFabrics.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'EEcb4B1AGgbCAaeagg-4BC4Ge-E5f33b',
+        'HOST': 'roundhouse.proxy.rlwy.net',
+        'PORT': '26267',
     }
 }
 
