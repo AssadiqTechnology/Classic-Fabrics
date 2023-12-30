@@ -1,0 +1,94 @@
+{% extends "customer/base.html" %}
+
+
+{% block content %}
+<title>All Customers</title>
+    <!-- ========================= Main ==================== -->
+    <div class="main">
+        <div class="topbar">
+            <div class="toggle">
+                <ion-icon name="menu-outline"></ion-icon>
+            </div>
+
+            <form method="get" action="{% url 'search_customer' %}">
+                <label>
+                    <input type="text" name="q" placeholder="Search by name or phone" value="{{ query }}">
+                    <ion-icon class="search-icon" name="search-outline"></ion-icon>
+                </label>
+                <button type="submit">Search</button>
+            </form>
+               
+            <div class="">
+                <strong>Date: {{ current_datetime }}</strong>
+            </div>
+        </div>
+
+        
+
+        <!-- ================ Order Details List ================= -->
+        <div class="details" style="width: 100%; display: block;">
+            <div class="recentOrders">
+                <div class="cardHeader">
+                    <h2>List of Customers</h2>
+                    <strong class="my-btn" style="text-decoration: none;">
+                        Total customers: {{ total_customers_count }}
+                    </strong>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Phone No.</td>
+                            <td>Customer Details</td>
+                            <td>Work Status</td>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    {% if customers %}
+                        {% for customer in customers %}
+                        <tr>
+                            <td>{{ customer.name }}</td>
+                            <td>{{ customer.phone }}</td>
+                            <td><a href="{% url 'customer_detail' pk=customer.pk %}" 
+                                style="text-decoration: none; 
+                                border: 1px solid burlywood; 
+                                background-color: white; 
+                                padding: 3px 3px 3px 3px;
+                                border-radius: 5px;
+                                color: rgb(221, 158, 75);">
+                                Details
+                            </a></td>
+                            <td><span class="status delivered">{{ customer.status }}</span></td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <p>No customers found.</p>
+                    {% endif %}
+                    </tbody>
+                </table>
+
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if customers.has_previous %}
+                            <a href="?page=1">&laquo; first</a>
+                            <a href="?page={{ customers.previous_page_number }}">previous</a>
+                        {% endif %}
+                
+                        <span class="current">
+                            Page {{ customers.number }} of {{ customers.paginator.num_pages }}.
+                        </span>
+                
+                        {% if customers.has_next %}
+                            <a href="?page={{ customers.next_page_number }}">next</a>
+                            <a href="?page={{ customers.paginator.num_pages }}">last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

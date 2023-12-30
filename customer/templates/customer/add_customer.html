@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="">
+    <title>Add Customer</title>
+</head>
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
+    body {
+        font-family: "Ubuntu", sans-serif;
+    }
+</style>
+<body style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static 'img/classic.jpg' %}'); background-size: cover; background-position: center; height: 100vh; align-items: center; justify-content: center;">
+
+    {% if form.errors %}
+        <ul>
+            {% for error in form.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow" style="margin-bottom: 30px; margin-top: 20px;">
+                    <div class="card-body">
+                        <center><h2 class="card-title" style="margin-bottom: 20px; color: #9c8310;">Add Customer</h2></center>
+                        <form method="post" enctype="multipart/form-data" action="{% url 'add_customer' %}">
+                            {% csrf_token %}
+                            <div class="row">
+                                {% for field in form %}
+                                    <div class="col-md-3 mb-3">
+                                        {{ field.label_tag }}
+                                        {% if field.name != 'description' and field.name != 'status' %}
+                                            <input type="{{ field.field.widget.input_type }}"
+                                                   name="{{ field.name }}"
+                                                   class="form-control{% if field.errors %} is-invalid{% endif %}"
+                                                   id="id_{{ field.name }}"
+                                                   {% if field.value %}value="{{ field.value }}"{% endif %}>
+                                            {% if field.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ field.errors|join:", " }}
+                                                </div>
+                                            {% endif %}
+                                        {% elif field.name == 'description' %}
+                                            <textarea name="{{ field.name }}"
+                                                      class="form-control{% if field.errors %} is-invalid{% endif %}"
+                                                      id="id_{{ field.name }}"
+                                            >{{ field.value }}</textarea>
+                                            {% if field.errors %}
+                                                <div class="invalid-feedback">
+                                                    {{ field.errors|join:", " }}
+                                                </div>
+                                            {% endif %}
+                                        {% elif field.name == 'status' %}
+                                            {{ field }}
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <button type="submit" class="btn btn-success">Add Customer</button>
+                            <a href="{% url 'all_customers' %}" class="btn btn-primary">Back</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional: jQuery and Popper.js for Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyFWBcBbGFAFsjRfDNIca00FbwEIlDI5fP" crossorigin="anonymous"></script>
+
+</body>
+</html>

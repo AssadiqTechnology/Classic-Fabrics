@@ -1,0 +1,17 @@
+<!-- reports/templates/reports/daily_report_pdf.html -->
+<!-- reports/templates/reports/base_report.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Report PDF</title>
+</head>
+<body>
+    <div id="content">
+        
+    <h1>Daily Report</h1>
+    <p>Date: 2023-12-06</p>
+    <p>Total Amount Paid: 1000.0</p>
+
+    </div>
+</body>
+</html>

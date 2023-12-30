@@ -1,0 +1,173 @@
+{% extends "customer/base.html" %}
+
+{% block content %}
+<title>Admin Dashboard</title>
+
+        <!-- ========================= Main ==================== -->
+        <div class="main">
+            <div class="topbar">
+                <div class="toggle">
+                    <ion-icon name="menu-outline"></ion-icon>  
+                </div>
+
+
+                <form method="get" action="{% url 'search_customer' %}">
+                    <label>
+                        <input type="text" name="q" placeholder="Search by name or phone" value="{{ query }}">
+                        <ion-icon class="search-icon" name="search-outline"></ion-icon>
+                    </label>
+                    <button type="submit">Search</button>
+                </form>
+                   
+                {% if user.is_authenticated %}
+                    <strong><p>Welcome, {{ user.username }}</p></strong>
+                {% else %}
+                    <p>Welcome, guest!</p>
+                {% endif %}
+            </div>
+
+            <!-- ======================= Cards ================== -->
+            <div class="cardBox">
+                <div class="card">
+                    <div>
+                        <div class="numbers">{{ total_customers_count }}</div>
+                        <div class="cardName">Total Customers</div>
+                    </div>
+
+                    <div class="iconBx">
+                        <ion-icon name="people-outline"></ion-icon>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <div class="numbers">{{ passed_collection_count }}</div>
+                        <div class="cardName">completed work</div>
+                    </div>
+
+                    <div class="iconBx">
+                        <ion-icon name="checkmark-done-outline"></ion-icon>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <div class="numbers">{{ not_passed_collection_count }}</div>
+                        <div class="cardName">work in progress</div>
+                    </div>
+
+                    <div class="iconBx">
+                        <ion-icon name="rocket-outline"></ion-icon>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div>
+                        <div class="numbers">{{ total_sets }}</div>
+                        <div class="cardName">Total Sets</div>
+                    </div>
+
+                    <div class="iconBx">
+                        <ion-icon name="timer-outline"></ion-icon>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================ Order Details List ================= -->
+            <div class="details">
+                <div class="recentOrders">
+                    <div class="cardHeader">
+                        <h2>List of Customers</h2>
+                        <a href="{% url 'all_customers' %}" class="my-btn">View All</a>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>Name</td>
+                                <td>Phone No.</td>
+                                <td>Customer Details</td>
+                                <td>Work Status</td>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                        {% if customers %}
+                            {% for customer in customers %}
+                            <tr>
+                                <td>{{ customer.name }}</td>
+                                <td>{{ customer.phone }}</td>
+                                <td><a href="{% url 'customer_detail' pk=customer.pk %}" 
+                                    style="text-decoration: none; 
+                                    border: 1px solid burlywood; 
+                                    background-color: white; 
+                                    padding: 3px 3px 3px 3px;
+                                    border-radius: 5px;
+                                    color: rgb(221, 158, 75);">
+                                    Details
+                                </a></td>
+                                <td><span class="status delivered">{{ customer.status }}</span></td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <p>No customers found.</p>
+                        {% endif %}
+                        </tbody>
+                    </table>
+
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if customers.has_previous %}
+                                <a href="?page=1">&laquo; first</a>
+                                <a href="?page={{ customers.previous_page_number }}">previous</a>
+                            {% endif %}
+                
+                            <span class="current">
+                                Page {{ customers.number }} of {{ customers.paginator.num_pages }}.
+                            </span>
+                
+                            {% if customers.has_next %}
+                                <a href="?page={{ customers.next_page_number }}">next</a>
+                                <a href="?page={{ customers.paginator.num_pages }}">last &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- ================= New Customers ================ -->
+                <div class="recentCustomers">
+                    <div class="cardHeader">
+                        <h2>Recent Customers</h2>
+                    </div>
+
+                    <table>
+                {% if recent_customers %}
+                    {% for customer in recent_customers %}
+                        <tr>
+                            <td width="10px">
+                            </td>
+                            <td>
+                                <h4>{{ customer.name }}<a href="{% url 'customer_detail' pk=customer.pk %}"
+                                    style="text-decoration: none; 
+                                    border: 1px solid burlywood; 
+                                    background-color: white; 
+                                    padding: 3px 3px 3px 3px;
+                                    border-radius: 5px;
+                                    margin-left: 10px;
+                                    font-size: 12px;
+                                    color: rgb(221, 158, 75);">Details</a> 
+                                    <br> <span> {{ customer.phone }}</span></h4>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <p>No recently registered customers.</p>
+                {% endif %}
+
+                        
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

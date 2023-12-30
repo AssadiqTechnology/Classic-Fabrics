@@ -1,0 +1,271 @@
+{% extends "customer/base.html" %}
+
+
+
+{% block content %}
+
+<title>{{ customer.name}} - Details</title>
+
+<style>
+
+  .description {
+    position: relative;
+    min-height: auto;
+    background: var(--white);
+    padding: 20px;
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+  }
+
+  @media print {
+    body * {
+      display: none;
+    }
+
+    #content,
+    #content * {
+      display: block;
+    }
+  }
+
+  .picture-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .image-link {
+    flex-basis: calc(50% - 10px); /* Set to 50% width with some spacing */
+    margin-bottom: 20px; /* Adjust the spacing between rows */
+  }
+
+  .image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px; /* Optional: Add rounded corners */
+  }
+
+
+</style>
+
+<body>
+    <!-- ========================= Main ==================== -->
+    <div class="main" id="main">
+        <div class="topbar">
+            <div class="toggle">
+                <ion-icon name="menu-outline"></ion-icon>
+            </div>
+        </div>
+
+        <div class="cardBox">
+            <div class="card">
+                <div>
+                    <div class="numbers">{{customer.date_of_register}}</div>
+                    <div class="cardName">Issue date</div>
+                </div>
+
+                <div class="iconBx">
+                    <ion-icon name="people-outline"></ion-icon>
+                </div>
+            </div>
+
+            <div class="card">
+                <div>
+                    <div class="numbers">{{ customer.amount_charged }}</div>
+                    <div class="cardName">Amount Charged</div>
+                </div>
+
+                <div class="iconBx">
+                    <ion-icon name="checkmark-done-outline"></ion-icon>
+                </div>
+            </div>
+
+            <div class="card">
+                <div>
+                    <div class="numbers">{{ customer.amount_paid }}</div>
+                    <div class="cardName">Amount Paid</div>
+                </div>
+
+                <div class="iconBx">
+                    <ion-icon name="rocket-outline"></ion-icon>
+                </div>
+            </div>
+
+            <div class="card">
+                <div>
+                    <div class="numbers">{{ customer.balance }}</div>
+                    <div class="cardName">Balance</div>
+                </div>
+
+                <div class="iconBx">
+                    <ion-icon name="timer-outline"></ion-icon>
+                </div>
+            </div>
+        </div>
+
+                
+
+      <div id="content">  <!-- ================ Order Details List ================= -->
+        <div class="details" style="width: 100%; display: block;">
+            <div class="recentOrders">
+                <div class="cardHeader">
+                    <h2>{{ customer.name }} - {{ customer.phone }}</h2>
+                    
+                    <strong class="my-btn">
+                        <a href="{% url 'all_customers' %}" style="text-decoration: none; color: white;">
+                            Back
+                        </a>
+                    </strong>
+
+                    <button id="print">Download Pdf</button>
+
+                    <strong class="my-btn">
+                        <a href="{% url 'edit_customer' customer.id %}" style="text-decoration: none; color: white;">
+                            Edit Customer
+                        </a>
+                    </strong>
+                </div>
+
+                <table style="height: auto;">
+                    <thead>
+                        <tr>
+                            <td>Ankle</td>
+                            <td>Neck</td>
+                            <td>Links</td>
+                            <td>Collection Date</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ customer.neck }}</td>
+                            <td>{{ customer.ankle }}</td>
+                            <td>{{ customer.links }}</td>
+                            <td>{{ customer.date_of_collection }}</td>
+                        </tr>
+                    </tbody>
+
+                    <tr>
+                    <thead>
+                        <tr>
+                            <td>Total Sets</td>
+                            <td>Freehand</td>
+                            <td>Bust</td>
+                            <td>Stamina</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ customer.total_sets }}</td>
+                            <td>{{ customer.freehand }}</td>
+                            <td>{{ customer.bust }}</td>
+                            <td>{{ customer.stamina }}</td>
+                        </tr>
+                    </tbody>
+                    <tr>
+
+                    <thead>
+                        <tr>
+                            <td>Wrist</td>
+                            <td>Shirt Length</td>
+                            <td>Trouser Lenght</td>
+                            <td>waist</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ customer.wrist }}</td>
+                            <td>{{ customer.shirt_length }}</td>
+                            <td>{{ customer.trouser_length }}</td>
+                            <td>{{ customer.waist }}</td>
+                        </tr>
+                    </tbody>
+                    <tr>
+
+                    <thead>
+                        <tr>
+                            <td>shoulder</td>
+                            <td>Sleeve</td>
+                            <td>Armhole</td>
+                            <td>lap</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ customer.shoulder }}</td>
+                            <td>{{ customer.sleeve }}</td>
+                            <td>{{ customer.armhole }}</td>
+                            <td>{{ customer.lap }}</td>
+                        </tr>
+                    </tbody>
+                    <tr>
+                </table>
+            </div>
+            
+        </div>
+      </div>
+        <!-- ================ Order Details List ================= -->
+        <div class="details" style="width: 100%; display: block;">
+            <div class="description">
+                <div class="cardHeader">
+                    <h2>Work Description</h2>
+                </div>
+                <p style="margin-top: 30px; font-family: Ubuntu;">{{ customer.description }}</p>
+            </div>
+        </div>
+
+        <div class="details" style="width: 100%; display: block;">
+            <div class="description">
+                <div class="cardHeader">
+                    <h2>Customer's Work Image</h2>
+                </div>
+
+                {% if customer.pictures.all %}
+                <div class="picture-container">
+                    {% for image in customer.pictures.all %}
+                    <a href="{{ customer.picture.url }}" target="_blank" class="image-link">
+                        <img src="{{ image.picture.url }}" alt="Customer Picture" class="image">
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    <h2>No Image Found for This Customer</h2>
+                {% endif %}
+                </div>
+
+                <strong class="my-btn">
+                    <a href="{% url 'customer_delete' customer.pk %}" style="text-decoration: none; color: white;">Delete Customer</a>
+                </strong>
+                
+                <strong class="my-btn">
+                    <a href="{% url 'all_customers' %}" style="text-decoration: none; color: white;">Back to List</a>
+                </strong>
+
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    const printBTN = document.getElementById('print');
+    printBTN.addEventListener('click', function () {
+      printContent();
+    });
+
+    function printContent() {
+      // Hide unnecessary elements during printing
+      const bodyContent = document.body.innerHTML;
+      document.body.innerHTML = document.getElementById('content').innerHTML;
+
+      // Print the content
+      window.print();
+
+      // Restore the body content
+      document.body.innerHTML = bodyContent;
+    }
+  </script>
+
+    
+</body>
+
+
+{% endblock %}

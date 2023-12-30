@@ -1,0 +1,62 @@
+{% extends "accounts/base.html" %}
+{% block content %}
+
+<title>Login Form</title>
+
+<!-- Integrated Form -->
+<div class="container">
+    <div class="screen">
+        <div class="screen__content">
+            <form method="post" action="{% url 'login' %}" class="login styled-form">
+                {% csrf_token %}
+
+                <div class="login__field input-field">
+                    <i class="login__icon fas fa-user"></i>
+                    <input type="text" name="username" id="id_username" class="login__input" placeholder="Enter your username" required>
+                    
+                    {% if form.username.errors %}
+                        <span class="error">{{ form.username.errors }}</span>
+                    {% endif %}
+                </div>
+                
+                <div class="login__field input-field">
+                    <i class="login__icon fas fa-lock"></i>
+                    <input type="password" name="password" id="id_password" class="login__input" placeholder="Enter your password" required>
+                    
+                    {% if form.password.errors %}
+                        <span class="error">{{ form.password.errors }}</span>
+                    {% endif %}
+                    <i class="uil uil-eye-slash showHidePw"></i>
+                </div>
+                <div class="checkbox-text">
+                    <div class="checkbox-content">
+                        <input type="checkbox" id="logCheck">
+                        <label for="logCheck" class="text" style="font-weight: bold;">Remember me</label>
+                    </div>
+
+                    <a href="{% url 'forgot_password' %}" class="text" 
+                    style="text-decoration: none;color: black; font-weight: bold;">Forgot password?</a>
+                </div>
+
+                <div class="input-field button">
+                    <input type="submit" value="Signup" class="styled-button">
+                </div>
+                <div class="login-signup">
+                    <span class="text">Not a member?
+                        <a href="{% url 'register' %}" class="text signup-link">Signup Now</a>
+                    </span>
+                </div>
+            </form>
+
+            
+        </div>
+        <div class="screen__background">
+            <span class="screen__background__shape screen__background__shape4"></span>
+            <span class="screen__background__shape screen__background__shape3"></span>        
+            <span class="screen__background__shape screen__background__shape2"></span>
+            <span class="screen__background__shape screen__background__shape1"></span>
+        </div>        
+    </div>
+</div>
+
+{% endblock %}

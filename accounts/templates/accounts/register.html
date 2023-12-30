@@ -1,0 +1,64 @@
+{% extends "accounts/base.html" %}
+ 
+{% block content %}
+
+<title>Register Form</title>
+
+  <div class="container">
+    <div class="screen">
+      <div class="screen__content">
+        <form method="post" action="{% url 'register' %}" class="login styled-form">
+          {% csrf_token %}
+
+          <div class="login__field input-field">
+            <i class="login__icon fas fa-user"></i>
+            <input type="text" name="{{ form.username.name }}" class="login__input" placeholder="Enter your name" required>
+            {% if form.username.errors %}
+              <span class="error">{{ form.username.errors }}</span>
+            {% endif %}
+          </div>
+
+          <div class="login__field input-field">
+            <i class="login__icon fas fa-lock"></i>
+            <input type="password" name="{{ form.password1.name }}" class="login__input password" placeholder="Create a password" required>
+            {% if form.password1.errors %}
+              <span class="error">{{ form.password1.errors }}</span>
+            {% endif %}
+          </div>
+
+          <div class="login__field input-field">
+            <i class="login__icon fas fa-lock"></i>
+            <input type="password" name="{{ form.password2.name }}" class="login__input password" placeholder="Confirm a password" required>
+            {% if form.password2.errors %}
+              <span class="error">{{ form.password2.errors }}</span>
+            {% endif %}
+            <i class="uil uil-eye-slash showHidePw"></i>
+          </div>
+
+          <div class="checkbox-text">
+            <div class="checkbox-content">
+              <input type="checkbox" id="termCon" required>
+              <label for="termCon" class="text" style="font-weight: bold;">I accepted all terms and conditions</label>
+            </div>
+          </div>
+
+          <div class="input-field button">
+            <input type="submit" value="Signup" class="styled-button">
+          </div>
+          <div class="login-signup">
+            <span class="text">Already a member?
+              <a href="{% url 'login' %}" class="text login-link">Login Now</a>
+            </span>
+          </div>
+        </form>
+      </div>
+      <div class="screen__background">
+        <span class="screen__background__shape screen__background__shape4"></span>
+        <span class="screen__background__shape screen__background__shape3"></span>
+        <span class="screen__background__shape screen__background__shape2"></span>
+        <span class="screen__background__shape screen__background__shape1"></span>
+      </div>
+    </div>
+  </div>
+  
+  {% endblock %}
